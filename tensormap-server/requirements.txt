@@ -2,7 +2,7 @@ aniso8601==6.0.0
 Click==7.0
 Flask==1.0.2
 Flask-RESTful==0.3.7
-tensorflow==2.0.0-alpha0
+tensorflow==2.0
 Flask_SocketIO
 eventlet
 numpy

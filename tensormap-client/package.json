@@ -10,7 +10,6 @@
     "file-saver": "^2.0.2",
     "history": "^4.9.0",
     "lodash": "^4.17.11",
-    "material-table": "^1.36.0",
     "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
