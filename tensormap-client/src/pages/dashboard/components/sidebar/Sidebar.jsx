@@ -8,6 +8,7 @@ import ListItemIcon     from '@material-ui/core/ListItemIcon/index'
 import ListItemText     from '@material-ui/core/ListItemText/index'
 import ListSubheader    from '@material-ui/core/ListSubheader/index'
 import FindInPageIcon   from '@material-ui/icons/FindInPage'
+import FileCopyIcon     from '@material-ui/icons/FileCopy';
 import HomeIcon         from '@material-ui/icons/Home'
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks'
 import PropTypes        from 'prop-types'
@@ -43,6 +44,12 @@ class Sidebar extends React.Component {
               <ListItemText inset primary="Home"/>
             </ListItem>
             <Divider/>
+            <ListItem button component={Link} to="/viewdata">
+              <ListItemIcon>
+                <FileCopyIcon/>
+              </ListItemIcon>
+              <ListItemText inset primary="View Datasets"/>
+            </ListItem>
             <ListItem button component={Link} to="/adddata">
               <ListItemIcon>
                 <LibraryBooksIcon/>

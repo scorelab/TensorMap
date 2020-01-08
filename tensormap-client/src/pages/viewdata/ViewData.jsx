@@ -8,11 +8,16 @@ class ViewData extends React.Component {
   constructor() {
     super();
     var Httpreq = new XMLHttpRequest();
-    Httpreq.open("GET", 'http://localhost:5000/viewData', false);
-    Httpreq.send(null);
-    this.state = {
-      data:JSON.parse(Httpreq.responseText),
-    };
+    try {
+      Httpreq.open("GET", 'http://localhost:5000/viewData', false);
+      Httpreq.send(null);
+      this.state = {
+        data: JSON.parse(Httpreq.responseText),
+      };
+    }
+    catch (exception) {
+      console.log(exception, "Unable to retrieve data from viewData route")
+    }
   }
 
 

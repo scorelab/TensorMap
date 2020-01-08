@@ -21,6 +21,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import OpenInNew from '@material-ui/icons/OpenInNew';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import FileCopyTwoToneIcon from '@material-ui/icons/FileCopyTwoTone';
 
 let counter = 0;
 function createData(id, name, dtype) {
@@ -39,7 +40,7 @@ function getDeleteHandler(idx) {
 const rows = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Dataset Name' },
   { id: 'dtype', numeric: true, disablePadding: false, label: 'Data Type' },
-  { id: 'icons', numeric: true, disablePadding: false, label: 'operations' },
+  { id: 'icons', numeric: true, disablePadding: false, label: 'Operations' },
 ];
 
 
@@ -52,7 +53,7 @@ class EnhancedTableHead extends React.Component {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
 
     return (
-      <TableHead>
+      <TableHead classes={styles.tableHeader}>
         <TableRow>
           <TableCell padding="checkbox">
             <Checkbox
@@ -141,7 +142,9 @@ let EnhancedTableToolbar = props => {
             {numSelected} selected
           </Typography>
         ) : (
-          <Typography variant="h6" id="tableTitle">
+          
+          <Typography variant="h5" id="tableTitle">
+            <FileCopyTwoToneIcon />
             Datasets
           </Typography>
         )}
@@ -185,21 +188,23 @@ const styles = theme => ({
   tableWrapper: {
     overflowX: 'auto',
   },
+  tableHeader: {
+    backgroundColor: 'white'
+  }
 });
 
 class EnhancedTable extends React.Component {
   state = {
     selected: [],
     data_:[],
-    data: [
-    ],
+    data: [],
     page: 0,
     rowsPerPage: 5,
   };
 
   componentDidMount(){
     this.setState({
-      data_:this.props.data
+      data_: this.props.data
     });
 
     var data__ = [];
@@ -217,8 +222,8 @@ class EnhancedTable extends React.Component {
     id.forEach((x) =>{
         getDeleteHandler(x);
         this.state.data.forEach((y) => {
-          if(y.id == x){
-            console.log(x, "deleted")
+          if(y.id === x){
+            console.log("Item previously deleted", x)
           }
           else{
             tmp_data.push(y)
@@ -292,9 +297,9 @@ class EnhancedTable extends React.Component {
 
     return (
       <Grid container spacing={24}>
-        <Grid item xs={2}>
+        <Grid item xs={1}>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={10}>
 
           <Paper className={classes.root}>
             <EnhancedTableToolbar numSelected={selected.length} handledelete={this.handleDelete} selected = {selected}/>
@@ -364,7 +369,7 @@ class EnhancedTable extends React.Component {
             />
           </Paper>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={1}>
         </Grid>
       </Grid>
     );
