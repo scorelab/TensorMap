@@ -37,9 +37,9 @@ class Dashboard extends React.Component {
   
   } 
 
-
-
   render() {
+
+    // console.log("dashborad")
     const {classes} = this.props
     console.log(window.location.href);
     var url_ = new URL(window.location.href);
@@ -48,10 +48,14 @@ class Dashboard extends React.Component {
 
         <div className={classes.root}>
           <CssBaseline/>
-          {url_.pathname !== '/neuralnet' &&
-              <Header/>
+          {/* {url_.pathname !== '/neuralnet' &&
+             
+          } */}
+          <Header/>
           }
-          <Sidebar/>
+           {/* <Header handleClick = {this.handleClick}/> */}
+           {/* <Sidebar handleClick = {this.handleClick}/> */}
+           <Sidebar/>
           <main className={classes.content}>
             {url_.pathname !== '/neuralnet' &&
                 <div className={classes.toolbar}/>

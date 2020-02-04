@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import { TrayWidget } from "./TrayWidget";
 import { Application } from "./Application";
 import { TrayItemWidget } from "./TrayItemWidget";
@@ -22,6 +22,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Avatar from '@material-ui/core/Avatar';
+import Highlight from 'react-highlight'
+// hljs.registerLanguage('python', require('highlight.js/lib/languages/python'));
+
+
+// import hljs from 'highlight.js';
+// hljs.registerLanguage('python', python);
 
 
 
@@ -114,6 +120,9 @@ export default class BodyWidget extends React.Component<BodyWidgetProps, BodyWid
   };
 
   componentDidMount() {
+    // hljs.registerLanguage('python', require('highlight.js/lib/languages/python'));
+
+    // hljs.registerLanguage('python', python);
     const socket = socketIOClient(endpoint);
     socket.on("nn_execute", (data: any) => console.log(data));
     var model = this.props.app.getDiagramEngine().getDiagramModel();
@@ -226,13 +235,6 @@ export default class BodyWidget extends React.Component<BodyWidgetProps, BodyWid
     }
     console.log(comp_data);
 
-    // const socket = socketIOClient(endpoint);
-    // socket.emit('nn_execute', comp_data, function(response: any) {
-    //   console.log(response)
-    //   this.setState({
-    //     runtime_data:response.json()
-    //   })
-    // });
 
   }
 
@@ -243,9 +245,7 @@ export default class BodyWidget extends React.Component<BodyWidgetProps, BodyWid
       graph: [json_graph],
       node_param: node_data
     }
-    // console.log(data);
     var url_ = baseURL + 'getcode/';
-    // console.log(url_)
     fetch(url_, {
       method: 'POST',
       headers: {
@@ -379,15 +379,12 @@ export default class BodyWidget extends React.Component<BodyWidgetProps, BodyWid
       tmp_form
     } as any)
 
-    // console.log(tmp_form)
-    // console.log(tmp_form.metrics)
   };
 
   handleSelection = () => {
     var graph = this.props.app.getDiagramEngine().getDiagramModel()
     var selected = graph.getSelectedItems()
 
-    // console.log(selected.length)
     for( var i = 0 ; i < selected.length ; ++i){
       if(selected[i].constructor.name === "DefaultNodeModel"){
         (selected[i] as DefaultNodeModel).extras.layer = this.state.layer_name;
@@ -412,11 +409,13 @@ export default class BodyWidget extends React.Component<BodyWidgetProps, BodyWid
 			});
 			this.forceUpdate();
   };
+  
+
 
 
   render() {
     return (
-      <div>
+      <div style = {{margin:"50px"}}>
             <Grid container spacing={8} style={{width:"100%",margin:"0px"}}>
               <Grid item xs className={"tray_"}>
                 <Paper square>
@@ -438,6 +437,7 @@ export default class BodyWidget extends React.Component<BodyWidgetProps, BodyWid
                     </TrayWidget>
                   </SidebarWidget>
                 </Paper>
+
               </Grid>
               <Grid item xs={8} spacing={8}>
               <Grid item xs style={{paddingBottom:10}}>
@@ -683,17 +683,11 @@ export default class BodyWidget extends React.Component<BodyWidgetProps, BodyWid
               margin = "dense"
               id = "name"
               type = "text"
-      				onChange = {(e) => {
-      					this.setState({
-                    layer_name:e.target.value
-                  })
-                }}
                 fullWidth
                 />
                 Choose color:
                 <Select
                 fullWidth
-                onChange={(e) => {this.setState({layer_color:e.target.value})}}
                 value={this.state.layer_color}
               >
                 <MenuItem value="" >

@@ -22,17 +22,15 @@ class Sidebar extends React.Component {
     mobileOpen: false,
   }
 
-  handleDrawerToggle = () => {
-    this.setState(state => ({mobileOpen: !state.mobileOpen}))
-  }
+ 
 
   render() {
     const {classes, theme} = this.props
 
 
     const drawer = (
-        <div>
-          <List
+        <div  style ={{width:"0px"}}>
+          <List  onClick={this.props.handleClick}
               component="nav"
               subheader={<ListSubheader component="div">TensorMap</ListSubheader>}
           >
@@ -42,7 +40,9 @@ class Sidebar extends React.Component {
               </ListItemIcon>
               <ListItemText inset primary="Home"/>
             </ListItem>
+
             <Divider/>
+
             <ListItem button component={Link} to="/adddata">
               <ListItemIcon>
                 <LibraryBooksIcon/>
@@ -84,6 +84,8 @@ class Sidebar extends React.Component {
             </Drawer>
           </Hidden>
           <Hidden xsDown implementation="css">
+          <div className = "sidebar" style={{width:"0"}}>
+
             <Drawer
                 classes={{
                   paper: classes.drawerPaper,
@@ -93,8 +95,10 @@ class Sidebar extends React.Component {
             >
               {drawer}
             </Drawer>
+            </div>
           </Hidden>
         </nav>
+        
     )
   }
 

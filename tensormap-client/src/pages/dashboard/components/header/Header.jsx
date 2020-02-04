@@ -10,32 +10,35 @@ import styles       from './Header.styles'
 
 class Header extends React.Component {
   state = {
-    mobileOpen: false,
+    mobileOpen: false
   }
 
-  handleDrawerToggle = () => {
-    this.setState(state => ({mobileOpen: !state.mobileOpen}))
-  }
+  
+ 
 
   render() {
     const {classes} = this.props
 
     return (
+      // <div style = {{position:'relative',zIndex:'200000000'}}>
+
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
             <IconButton
                 color="inherit"
                 aria-label="Open drawer"
-                onClick={this.handleDrawerToggle}
+                onClick={this.props.handleClick}
                 className={classes.menuButton}
             >
               <MenuIcon/>
             </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
+            <Typography variant="h6"  color="inherit" noWrap>
               [Title]
             </Typography>
           </Toolbar>
         </AppBar>
+        // </div>
+
     )
   }
 

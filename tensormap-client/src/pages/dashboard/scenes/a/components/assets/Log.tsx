@@ -1,9 +1,19 @@
 import React from 'react';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+// import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+
+
+
+
+const text_style = {
+    color:"red"
+  
+}
 
 interface TabContainerProps {
   children?: React.ReactNode;
@@ -29,13 +39,17 @@ TabContainer.propTypes = {
 export default function SimpleTabs(props: SimpleTabsProps) {
   const [value, setValue] = React.useState(0);
 
+    
+
   function handleChange(event: React.ChangeEvent<{}>, newValue: number) {
     setValue(newValue);
   }
 
   let newText = props.code.split('\n').map((item, i) => {
-    return <p key={i}>{item}</p>;
+
+    return <p><SyntaxHighlighter language = "python" style = {docco}>{` ${item}`} </SyntaxHighlighter></p>;
   });
+
 
   return (
     <div className="log_main">
@@ -46,8 +60,14 @@ export default function SimpleTabs(props: SimpleTabsProps) {
             <Tab label="Code" />
           </Tabs>
         </AppBar>
+        
+        {console.log(props.runtimeData)}
         {value === 0 && <TabContainer>{props.runtimeData}</TabContainer>}
-        {value === 1 && <TabContainer>{newText}
+        {console.log(props.code)}
+  {value === 1 && <TabContainer>
+   
+      {newText}
+     
         </TabContainer>}
       </div>
     </div>
