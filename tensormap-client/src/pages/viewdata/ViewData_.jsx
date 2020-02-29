@@ -2,14 +2,14 @@ import {withStyles} from '@material-ui/core'
 import PropTypes    from 'prop-types'
 import * as React   from 'react'
 import styles       from './ViewData.styles'
-
+import baseURL from '../../config'
 class ViewData extends React.Component {
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
     this.getDeleteHandler = this.getDeleteHandler.bind(this);
     var Httpreq = new XMLHttpRequest();
-    Httpreq.open("GET", 'http://localhost:5000/viewData', false);
+    Httpreq.open("GET", baseURL + 'viewData', false);
     Httpreq.send(null);
     this.state = {
       currentPage: 1,
@@ -37,7 +37,7 @@ class ViewData extends React.Component {
     return function () {
       var string = document.getElementById('name_' + idx).childNodes[0].value;
       var Httpreq = new XMLHttpRequest();
-      Httpreq.open("GET", 'http://localhost:5000/updateData?id=' + idx + '&name=' + string, true);
+      Httpreq.open("GET", baseURl + 'updateData?id=' + idx + '&name=' + string, true);
       Httpreq.send(null);
       document.getElementById('edit_' + idx).style.display = '';
       document.getElementById('save_' + idx).style.display = 'none';
@@ -58,7 +58,7 @@ class ViewData extends React.Component {
   getDeleteHandler(idx) {
     return function() {
       var Httpreq = new XMLHttpRequest();
-      Httpreq.open("GET", 'http://localhost:5000/deleteData?id=' + idx, true);
+      Httpreq.open("GET", baseURL + 'deleteData?id=' + idx, true);
       Httpreq.send(null);
       document.getElementById('datarow_' + idx).remove();
     }

@@ -32,7 +32,7 @@ import socketIOClient from "socket.io-client";
 
 var _ = require('lodash')
 
-const endpoint = "ws://localhost:5000/nn";
+const endpoint = "http://localhost:5000/nn";
 
  
 export interface BodyWidgetProps {

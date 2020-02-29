@@ -22,7 +22,7 @@ import { saveAs } from 'file-saver';
 import { forwardRef } from 'react';
 import { template } from '@babel/core';
 import {Button,ButtonGroup,Collapse,Tabs,Tab} from 'react-bootstrap';
-
+import Loader from 'react-loader-spinner';
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -419,11 +419,19 @@ class VisualizeData extends React.Component {
     const {classes} = this.props;
     const {match} = this.props;
 
-    
+    const loader = this.state.data === [] || this.state.filename === null ? <Loader
+    type="Puff"
+    color="#00BFFF"
+    height={100}
+    width={100}
+    timeout={3000} //3 secs
+
+ /> : "" ;
 
     return (
+      
       <div className={classes.container}>
-
+        {loader}
       <div className={classes.visualizeHeader}>
       <div>
         <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">

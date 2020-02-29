@@ -12,6 +12,7 @@ import {AddData}       from '../adddata'
 import {ViewData}      from '../viewdata'
 import {VisualizeData} from '../visualizedata'
 import styles       from './Dashboard.styles'
+import { baseURL } from '../../config';
 
 class Dashboard extends React.Component {
 
@@ -21,7 +22,7 @@ class Dashboard extends React.Component {
     var obj = {user_id:"1", experimet_type: "regression"}
     var data = JSON.stringify(obj)    
     console.log(data)
-    fetch("http://127.0.0.1:5000/createExperiment", {
+    fetch(baseURL + "/createExperiment", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

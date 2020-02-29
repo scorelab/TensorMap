@@ -3,7 +3,7 @@ import PropTypes    from 'prop-types'
 import * as React   from 'react'
 import styles       from './ViewData.styles'
 import Table from './assets/Table'
-
+import baseURL from '../../config'
 class ViewData extends React.Component {
   constructor() {
     super();
