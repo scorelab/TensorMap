@@ -454,7 +454,7 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
                   </SidebarWidget>
                 </Paper>
               </Grid>
-              <Grid item xs={8} spacing={5}>
+              <Grid item xs={8}>
               <Grid item xs style={{paddingBottom:10}}>
                 <Paper square>
                   <Button variant= "contained" onClick = {this.handledelete} style={{backgroundColor:"#fff",boxShadow:"none"}}> <DeleteIcon /></Button>

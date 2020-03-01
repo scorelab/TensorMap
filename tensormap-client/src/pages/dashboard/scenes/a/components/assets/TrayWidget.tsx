@@ -31,11 +31,9 @@ export class TrayWidget extends React.Component<TrayWidgetProps, TrayWidgetState
 	          <Typography>{this.props.nntype}</Typography>
 	        </ExpansionPanelSummary>
 	        <ExpansionPanelDetails>
-							<Typography>
-								<List component="nav" aria-label="Main mailbox folders">
-									{this.props.children}
-								</List>
-							</Typography>
+						<List component="nav" aria-label="Main mailbox folders">
+							{this.props.children}
+						</List>
 	        </ExpansionPanelDetails>
 	      </ExpansionPanel>);
 

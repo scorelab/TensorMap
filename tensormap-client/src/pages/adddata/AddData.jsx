@@ -2,7 +2,6 @@ import {withStyles} from '@material-ui/core'
 import PropTypes    from 'prop-types'
 import * as React   from 'react'
 import styles       from './AddData.styles'
-import { withRouter } from 'react-router-dom';
 
 class AddData extends React.Component {
 
@@ -19,16 +18,15 @@ class AddData extends React.Component {
   
   validateFileType(e)
   {
-    var name = null
     let filepath= e.target.value;
     var ext = filepath.substring(filepath.lastIndexOf('.') + 1);
     this.setState({fileData:e.target.files[0]}) 
-    if(this.state.fileType == "null"){
+    if(this.state.fileType === "null"){
       e.target.value = ""
       alert("Select File Type");
     }
     else{
-      if(ext != this.state.fileType ) {
+      if(ext !== this.state.fileType ) {
         e.target.value = ""
         alert("Unsupported File Type");
       }    
@@ -44,7 +42,7 @@ class AddData extends React.Component {
   {
     e.preventDefault();
 
-    if(this.state.fileType == "null" || this.state.fileData == "null"){
+    if(this.state.fileType === "null" || this.state.fileData === "null"){
       alert("Select File Type And Upload File")
     }
     else{
@@ -58,7 +56,7 @@ class AddData extends React.Component {
       }).then((response) => {
         return response.text();
       }).then((responseText) => {
-        if(responseText == "error"){
+        if(responseText === "error"){
           alert ("Dataset with identical name already exists");
         }
         else{

@@ -22,9 +22,7 @@ import OpenInNew from '@material-ui/icons/OpenInNew';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 
-let counter = 0;
 function createData(id, name, dtype) {
-  counter += 1;
   return { id: id, name, dtype};
 }
 
@@ -177,7 +175,7 @@ EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
   },
   table: {
     minWidth: 540,
@@ -217,7 +215,7 @@ class EnhancedTable extends React.Component {
     id.forEach((x) =>{
         getDeleteHandler(x);
         this.state.data.forEach((y) => {
-          if(y.id == x){
+          if(y.id === x){
             console.log(x, "deleted")
           }
           else{
@@ -291,7 +289,7 @@ class EnhancedTable extends React.Component {
 
 
     return (
-      <Grid container spacing={24}>
+      <Grid container spacing={10}>
         <Grid item xs={2}>
         </Grid>
         <Grid item xs={8}>
@@ -302,8 +300,8 @@ class EnhancedTable extends React.Component {
               <Table className={classes.table} aria-labelledby="tableTitle">
                 <EnhancedTableHead
                   numSelected={selected.length}
-                  order={order}
-                  orderBy={orderBy}
+                  order={order?order:'asc'}
+                  orderBy={orderBy?orderBy:'name'}
                   onSelectAllClick={this.handleSelectAllClick}
                   onRequestSort={this.handleRequestSort}
                   rowCount={data.length}

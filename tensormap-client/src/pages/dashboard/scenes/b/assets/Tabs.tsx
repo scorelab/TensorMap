@@ -1,14 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
-import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import AddData from '../../../../adddata/AddData';
 import ViewData from '../../../../viewdata/ViewData';
-import VisualizeData from '../../../../visualizedata/VisualizeData';
-
 
 
 interface TabContainerProps {
@@ -60,6 +57,6 @@ export default function SimpleTabs(props: SimpleTabsProps) {
 }
 
 SimpleTabs.propTypes = {
-  code: PropTypes.string.isRequired,
-  runtimeData: PropTypes.string.isRequired,
+  code: PropTypes.string,
+  runtimeData: PropTypes.string,
 };

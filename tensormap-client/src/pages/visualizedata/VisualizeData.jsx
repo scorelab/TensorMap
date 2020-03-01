@@ -20,8 +20,7 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import { saveAs } from 'file-saver';
 import { forwardRef } from 'react';
-import { template } from '@babel/core';
-import {Button,ButtonGroup,Collapse,Tabs,Tab} from 'react-bootstrap';
+import {Button,Tabs,Tab} from 'react-bootstrap';
 
 
 const tableIcons = {
@@ -290,7 +289,7 @@ class VisualizeData extends React.Component {
     console.log(e.target.value);
     var tempData = [...this.state.columnCheckBoxes]
     for (var column in tempData) {
-      if (e.target.value == tempData[column].title){
+      if (e.target.value === tempData[column].title){
         tempData[column].checked = !(tempData[column].checked)
         break;
       }
@@ -303,7 +302,7 @@ class VisualizeData extends React.Component {
     console.log(e.target.value);
     var tempData = [...this.state.labels]
     for (var column in tempData) {
-      if (e.target.value == tempData[column].title){
+      if (e.target.value === tempData[column].title){
         tempData[column].checked = !(tempData[column].checked)
         break;
       }
@@ -323,7 +322,7 @@ class VisualizeData extends React.Component {
     var featureColumn = null
     for (var column in tempFeatureData) {   
       console.log(tempFeatureData[column].title)       
-      if (e.target.value == tempFeatureData[column].title){
+      if (e.target.value === tempFeatureData[column].title){
         tempFeatureData[column].checked = !(tempFeatureData[column].checked) 
         featureColumn = tempFeatureData[column]
         console.log(featureColumn)
@@ -337,17 +336,17 @@ class VisualizeData extends React.Component {
     console.log(featureColumn.checked)
     var currentLabels = [...this.state.labels]
 
-    if(featureColumn.checked == true){
+    if(featureColumn.checked === true){
       console.log("y")          
       for(var labeldata in currentLabels){
-        if (e.target.value == currentLabels[labeldata].title){
+        if (e.target.value === currentLabels[labeldata].title){
           currentLabels.splice(currentLabels.indexOf(currentLabels[labeldata]), 1);
           this.setState({labels:currentLabels});
           break;
         }
       }          
     }
-    else if(featureColumn.checked == false){  
+    else if(featureColumn.checked === false){  
       console.log("else")      
         var labelCheckBoxAlter = featureColumn
         labelCheckBoxAlter.checked = false
@@ -415,11 +414,7 @@ class VisualizeData extends React.Component {
 
 
   render() {
-    const {sampleData} = this.state;
-    const {classes} = this.props;
-    const {match} = this.props;
-
-    
+    const {classes} = this.props;    
 
     return (
       <div className={classes.container}>

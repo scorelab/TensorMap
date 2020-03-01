@@ -18,7 +18,6 @@ class ViewData extends React.Component {
 
   render() {
     console.log(this.state.data);
-    const {classes} = this.props
 
     return (
         <Table data={this.state.data}/>
