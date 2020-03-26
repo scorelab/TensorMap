@@ -22,8 +22,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Avatar from '@material-ui/core/Avatar';
-import {withStyles} from '@material-ui/core';
-import styles       from './BodyWidget.styles'
+import { withStyles, InputLabel } from '@material-ui/core';
+import styles from './BodyWidget.styles'
 
 import { baseURL } from '../../../../../../config';
 
@@ -34,11 +34,11 @@ var _ = require('lodash')
 
 const endpoint = "ws://localhost:5000/nn";
 
- 
+
 export interface BodyWidgetProps {
   app: Application;
-  classes?:any;
-  theme?:any;
+  classes?: any;
+  theme?: any;
 }
 
 export interface BodyWidgetState {
@@ -48,11 +48,11 @@ export interface BodyWidgetState {
   accuracy: boolean;
   neg_mean_square_error: boolean;
   tmp_id: string;
-  dialog_group:boolean;
-  layer_name:string;
-  layer_color:any;
-  runtime_data:string;
-  code:string;
+  dialog_group: boolean;
+  layer_name: string;
+  layer_color: any;
+  runtime_data: string;
+  code: string;
   node:
   {
     id: string;
@@ -74,15 +74,15 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
       drawer: false,
       drawerlink: false,
       dialog: false,
-      dialog_group:false,
+      dialog_group: false,
       tmp_id: "",
       accuracy: false,
       neg_mean_square_error: false,
-      layer_name:"",
-      
-      layer_color:"",
-      runtime_data:"Epoch Number: 25, Val Acc: 87.3623%, Train Acc: 90.821% ",
-      code:"from keras.datasets import mnist\nfrom keras.layers import Dense, Conv2D, Flatten\nmodel = Sequential()\nmodel.add(Conv2D(64, kernel_size=3, activation=’relu’, input_shape=(28,28,1)))\nmodel.add(Flatten())\nmodel.add(Dense(10, activation=’softmax’))\nmodel.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=3)",
+      layer_name: "",
+
+      layer_color: "",
+      runtime_data: "Epoch Number: 25, Val Acc: 87.3623%, Train Acc: 90.821% ",
+      code: "from keras.datasets import mnist\nfrom keras.layers import Dense, Conv2D, Flatten\nmodel = Sequential()\nmodel.add(Conv2D(64, kernel_size=3, activation=’relu’, input_shape=(28,28,1)))\nmodel.add(Flatten())\nmodel.add(Dense(10, activation=’softmax’))\nmodel.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=3)",
       node: [
         {
           id: "",
@@ -92,7 +92,7 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
       ,
       tmp_form:
       {
-        error_text:"",
+        error_text: "",
         units: "",
         activation: "",
       },
@@ -181,35 +181,36 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
 
   handleChange = (key: number, param_name: string, event: React.ChangeEvent<HTMLInputElement>, islink: boolean, id: string) => {
     var tmp_form = this.state.tmp_form;
- if (/^(\s*|\d+)$/.test(event.target.value)){
-    if (islink) {
-      var link = this.props.app.getDiagramEngine().getDiagramModel().getLink(id);
-      if (link != null) {
-        link.extras = {
-          weight: event.target.value
-        };
-        var labels_node = link.labels[0] as DefaultLabelModel;
-        labels_node.setLabel(event.target.value);
+    if (/^(\s*|\d+)$/.test(event.target.value)) {
+      if (islink) {
+        var link = this.props.app.getDiagramEngine().getDiagramModel().getLink(id);
+        if (link != null) {
+          link.extras = {
+            weight: event.target.value
+          };
+          var labels_node = link.labels[0] as DefaultLabelModel;
+          labels_node.setLabel(event.target.value);
+        }
+        tmp_form[param_name] = event.target.value
+        this.setState({
+          tmp_form
+        } as any)
       }
-      tmp_form[param_name] = event.target.value
-      this.setState({
-        tmp_form
-      } as any)
-    }
-    else {
-      tmp_form[param_name] = event.target.value
-      tmp_form["error_text"]=""
+      else {
+        tmp_form[param_name] = event.target.value
+        tmp_form["error_text"] = ""
+        this.setState({
+          tmp_form,
+
+        } as any)
+      }
+    } else {
+
+      tmp_form["error_text"] = "Please Enter A valid Number"
       this.setState({
         tmp_form,
-       
       } as any)
     }
- }else{
- 
-   tmp_form["error_text"]="Please Enter A valid Number"
-   this.setState({
- tmp_form,} as any)
- }
   };
 
   handleSave = () => {
@@ -268,7 +269,7 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
     })
       .then(response => response.json())
       .then(response => this.setState({
-        code:response
+        code: response
       }))
       .catch(response => console.log(response));
   }
@@ -370,8 +371,8 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
   handleClickOpenGrouping = () => {
     this.setState({
       dialog_group: true,
-      layer_name:"",
-      layer_color:"",
+      layer_name: "",
+      layer_color: "",
     })
   }
 
@@ -400,8 +401,8 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
     var selected = graph.getSelectedItems()
 
     // console.log(selected.length)
-    for( var i = 0 ; i < selected.length ; ++i){
-      if(selected[i].constructor.name === "DefaultNodeModel"){
+    for (var i = 0; i < selected.length; ++i) {
+      if (selected[i].constructor.name === "DefaultNodeModel") {
         (selected[i] as DefaultNodeModel).extras.layer = this.state.layer_name;
         (selected[i] as DefaultNodeModel).extras.layer_color = this.state.layer_color;
         (selected[i] as DefaultNodeModel).color = this.state.layer_color;
@@ -412,216 +413,216 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
     this.handleCloseGrouping()
   };
 
-  handleLayerCreated = () =>{
+  handleLayerCreated = () => {
     //Post request to backend
   }
 
   handledelete = () => {
-			_.forEach(this.props.app.getDiagramEngine().getDiagramModel().getSelectedItems(), (element : any) => {
-				if (!this.props.app.getDiagramEngine().isModelLocked(element)) {
-					element.remove();
-				}
-			});
-			this.forceUpdate();
+    _.forEach(this.props.app.getDiagramEngine().getDiagramModel().getSelectedItems(), (element: any) => {
+      if (!this.props.app.getDiagramEngine().isModelLocked(element)) {
+        element.remove();
+      }
+    });
+    this.forceUpdate();
   };
 
-  
+
 
 
   render() {
-    const {classes} = this.props
+    const { classes } = this.props
     return (
       <div>
-            <Grid container spacing={1} style={{width:"100%",margin:"0px"}}>
-              <Grid item xs={2} className={"tray_"}>
-                <Paper square>
-                  <SidebarWidget>
-                    <TrayWidget nntype="FDN">
-                      <TrayItemWidget model={{ type: "in", name: 'inp_layer' }} name = "Input Node" color = "rgb(192,255,0)" />
-                      <TrayItemWidget model={{ type: "out", name: 'hid_layer' }} name = "Hidden Node" color = "rgb(0,192,255)" />
-                      <TrayItemWidget model={{ type: "in", name: "out_layer" }} name = "Output Node" color = "rgb(90,102,255)" />
-                    </TrayWidget>
-                    <TrayWidget nntype="RNN">
-                      <TrayItemWidget model={{ type: "in", name: 'inp_layer' }} name = "Input Node" color = "rgb(192,255,0)" />
-                      <TrayItemWidget model={{ type: "out", name: 'hid_layer' }} name = "Recurrent Node" color = "rgb(0,192,255)" />
-                      <TrayItemWidget model={{ type: "in", name: "out_layer" }} name = "Output Node" color = "rgb(90,102,255)" />
-                    </TrayWidget>
-                    <TrayWidget nntype="LSTM">
-                      <TrayItemWidget model={{ type: "in", name: 'inp_layer' }} name = "Input Node" color = "rgb(192,255,0)" />
-                      <TrayItemWidget model={{ type: "out", name: 'hid_layer' }} name = "Memory Node" color = "rgb(0,192,255)" />
-                      <TrayItemWidget model={{ type: "in", name: "out_layer" }} name = "Output Node" color = "rgb(90,102,255)" />
-                    </TrayWidget>
-                  </SidebarWidget>
-                </Paper>
-              </Grid>
-              <Grid item xs={8} spacing={5}>
-              <Grid item xs style={{paddingBottom:10}}>
-                <Paper square>
-                  <Button variant= "contained" onClick = {this.handledelete} style={{backgroundColor:"#fff",boxShadow:"none"}}> <DeleteIcon /></Button>
-                </Paper>
-              </Grid>
-                <Grid item >
-                  <Paper square>
-                    <div
-          						        className = "diagram-layer"
-          						        onDrop = {
-                                  event => {
-                                    var data = JSON.parse(event.dataTransfer.getData("storm-diagram-node"));
-                                    var node = null;
-                                    if (data.name === "inp_layer") {
-                                      node = new DefaultNodeModel("Input", "rgb(0,102,255)");
-                                      node.addPort(new DefaultPortModel(false, "out-1", "out"));
-                                      node.extras = {
-                                        name: "Input Node",
-                                        wight: 0.5
-                                      }
-                                    } else if (data.name === "out_layer") {
-
-                                      node = new DefaultNodeModel("Output", "rgb(90,102,255)");
-                                      node.addPort(new DefaultPortModel(true, "in-1", "In"));
-                                      node.extras = {
-                                        name: "Output Node",
-                                        wight: 0.5
-                                      }
-                                    }
-                                    else {
-                                      node = new DefaultNodeModel("Dense", "rgb(0,192,255)");
-                                      node.addPort(new DefaultPortModel(true, "in-1", "In"));
-                                      node.addPort(new DefaultPortModel(false, "out-1", "Out"));
-                                      node.extras = {
-                                        name: "Dense Node",
-                                        wight: 0.5
-                                      }
-                                    }
-                                    var points = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
-                                    node.x = points.x;
-                                    node.y = points.y;
-                                    this.props.app
-                                      .getDiagramEngine()
-                                      .getDiagramModel()
-                                      .addNode(node);
-                                    this.forceUpdate();
-                                  }
-                                }
-          						onDragOver = {
-                          event => {
-                            event.preventDefault();
-                          }
-                        }
-
-          						onDoubleClick = {
-                          event => {
-                            var selected_node = document.getElementsByClassName("srd-node--selected");
-                            var selected_link = document.getElementsByClassName("srd-default-link--path-selected ")
-
-                            if (selected_node.length > 0) {
-                              // console.log(selected_node);
-                              // console.log(selected_link);
-                              // data-nodeid
-                              var node_id = selected_node[0].getAttribute("data-nodeid");
-                              // console.log(selected_node[0].getAttribute("data-nodeid"));
-                              if (node_id !== null) {
-                                this.toggleDrawer(true, node_id, false);
-                                this.setState({
-                                  tmp_id: node_id,
-                                })
-                              }
-                            }
-                            else if (selected_link.length > 0) {
-                              // console.log(selected_link);
-                              var link_id = selected_link[1].getAttribute("data-linkid");
-                              // console.log(selected_link[1].getAttribute("data-linkid"));
-                              if (link_id !== null) {
-                                this.setState({
-                                  tmp_id: link_id,
-                                })
-                                this.toggleDrawer(true, link_id, true);
-                              }
-                            }
-                          }
-                        }
-                        >
-                      <DiagramWidget
-          						className="srd-demo-canvas"
-          						diagramEngine = { this.props.app.getDiagramEngine() }
-          						maxNumberPointsPerLink = {0}
-                      allowLooseLinks={false}
-                      deleteKeys = {[]}
-                      />
-                    </div>
-                  </Paper>
-                  </Grid>
-                  <Grid item xs style={{paddingTop:10, textAlign:"right"}}>
-                    <Paper style={{padding:5}} square>
-                      <Button variant= "contained"  onClick = {this.handleExecute} className={classes.button}> Get Code </Button>
-                      <Button variant = "contained"  onClick = { this.handleClickOpen } className={classes.button}> Change Exe Config </Button>
-                      <Button variant = "contained"  onClick = { this.handleClickOpenGrouping } className={classes.button}> Group Selection </Button>
-                      </Paper>
-                  </Grid>
-              </Grid>
-              <Grid item xs={2} >
-                <Paper square>
-                  <Properties/>
-                </Paper>
-              </Grid>
+        <Grid container spacing={1} style={{ width: "100%", margin: "0px" }}>
+          <Grid item xs={2} className={"tray_"}>
+            <Paper square>
+              <SidebarWidget>
+                <TrayWidget nntype="FDN">
+                  <TrayItemWidget model={{ type: "in", name: 'inp_layer' }} name="Input Node" color="rgb(192,255,0)" />
+                  <TrayItemWidget model={{ type: "out", name: 'hid_layer' }} name="Hidden Node" color="rgb(0,192,255)" />
+                  <TrayItemWidget model={{ type: "in", name: "out_layer" }} name="Output Node" color="rgb(90,102,255)" />
+                </TrayWidget>
+                <TrayWidget nntype="RNN">
+                  <TrayItemWidget model={{ type: "in", name: 'inp_layer' }} name="Input Node" color="rgb(192,255,0)" />
+                  <TrayItemWidget model={{ type: "out", name: 'hid_layer' }} name="Recurrent Node" color="rgb(0,192,255)" />
+                  <TrayItemWidget model={{ type: "in", name: "out_layer" }} name="Output Node" color="rgb(90,102,255)" />
+                </TrayWidget>
+                <TrayWidget nntype="LSTM">
+                  <TrayItemWidget model={{ type: "in", name: 'inp_layer' }} name="Input Node" color="rgb(192,255,0)" />
+                  <TrayItemWidget model={{ type: "out", name: 'hid_layer' }} name="Memory Node" color="rgb(0,192,255)" />
+                  <TrayItemWidget model={{ type: "in", name: "out_layer" }} name="Output Node" color="rgb(90,102,255)" />
+                </TrayWidget>
+              </SidebarWidget>
+            </Paper>
+          </Grid>
+          <Grid item xs={8} spacing={5}>
+            <Grid item xs style={{ paddingBottom: 10 }}>
+              <Paper square>
+                <Button variant="contained" onClick={this.handledelete} style={{ backgroundColor: "#fff", boxShadow: "none" }}> <DeleteIcon /></Button>
+              </Paper>
             </Grid>
-            <Grid container spacing={8}>
-              <Grid item xs>
-                <Paper square>
-                  <SimpleTabs code={this.state.code} runtimeData = {this.state.runtime_data}/>
-                </Paper>
-              </Grid>
+            <Grid item >
+              <Paper square>
+                <div
+                  className="diagram-layer"
+                  onDrop={
+                    event => {
+                      var data = JSON.parse(event.dataTransfer.getData("storm-diagram-node"));
+                      var node = null;
+                      if (data.name === "inp_layer") {
+                        node = new DefaultNodeModel("Input", "rgb(0,102,255)");
+                        node.addPort(new DefaultPortModel(false, "out-1", "out"));
+                        node.extras = {
+                          name: "Input Node",
+                          wight: 0.5
+                        }
+                      } else if (data.name === "out_layer") {
+
+                        node = new DefaultNodeModel("Output", "rgb(90,102,255)");
+                        node.addPort(new DefaultPortModel(true, "in-1", "In"));
+                        node.extras = {
+                          name: "Output Node",
+                          wight: 0.5
+                        }
+                      }
+                      else {
+                        node = new DefaultNodeModel("Dense", "rgb(0,192,255)");
+                        node.addPort(new DefaultPortModel(true, "in-1", "In"));
+                        node.addPort(new DefaultPortModel(false, "out-1", "Out"));
+                        node.extras = {
+                          name: "Dense Node",
+                          wight: 0.5
+                        }
+                      }
+                      var points = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
+                      node.x = points.x;
+                      node.y = points.y;
+                      this.props.app
+                        .getDiagramEngine()
+                        .getDiagramModel()
+                        .addNode(node);
+                      this.forceUpdate();
+                    }
+                  }
+                  onDragOver={
+                    event => {
+                      event.preventDefault();
+                    }
+                  }
+
+                  onDoubleClick={
+                    event => {
+                      var selected_node = document.getElementsByClassName("srd-node--selected");
+                      var selected_link = document.getElementsByClassName("srd-default-link--path-selected ")
+
+                      if (selected_node.length > 0) {
+                        // console.log(selected_node);
+                        // console.log(selected_link);
+                        // data-nodeid
+                        var node_id = selected_node[0].getAttribute("data-nodeid");
+                        // console.log(selected_node[0].getAttribute("data-nodeid"));
+                        if (node_id !== null) {
+                          this.toggleDrawer(true, node_id, false);
+                          this.setState({
+                            tmp_id: node_id,
+                          })
+                        }
+                      }
+                      else if (selected_link.length > 0) {
+                        // console.log(selected_link);
+                        var link_id = selected_link[1].getAttribute("data-linkid");
+                        // console.log(selected_link[1].getAttribute("data-linkid"));
+                        if (link_id !== null) {
+                          this.setState({
+                            tmp_id: link_id,
+                          })
+                          this.toggleDrawer(true, link_id, true);
+                        }
+                      }
+                    }
+                  }
+                >
+                  <DiagramWidget
+                    className="srd-demo-canvas"
+                    diagramEngine={this.props.app.getDiagramEngine()}
+                    maxNumberPointsPerLink={0}
+                    allowLooseLinks={false}
+                    deleteKeys={[]}
+                  />
+                </div>
+              </Paper>
             </Grid>
+            <Grid item xs style={{ paddingTop: 10, textAlign: "right" }}>
+              <Paper style={{ padding: 5 }} square>
+                <Button variant="contained" onClick={this.handleExecute} className={classes.button}> Get Code </Button>
+                <Button variant="contained" onClick={this.handleClickOpen} className={classes.button}> Change Exe Config </Button>
+                <Button variant="contained" onClick={this.handleClickOpenGrouping} className={classes.button}> Group Selection </Button>
+              </Paper>
+            </Grid>
+          </Grid>
+          <Grid item xs={2} >
+            <Paper square>
+              <Properties />
+            </Paper>
+          </Grid>
+        </Grid>
+        <Grid container spacing={8}>
+          <Grid item xs>
+            <Paper square>
+              <SimpleTabs code={this.state.code} runtimeData={this.state.runtime_data} />
+            </Paper>
+          </Grid>
+        </Grid>
 
 
 
-      <div>
+        <div>
 
 
-        <Drawer anchor = "right" open = { this.state.drawer } onClose = {() => this.toggleDrawer(false, "close", false)}>
-          <div
-  					role="presentation"
-            className = { "param_drawer"} >
-            <h2>Node Parameters </h2>
-            <form noValidate autoComplete = "off" className = { "drawer_form"} >
-              <TextField  id="standard-name" label = "units"helperText={this.state.tmp_form.error_text}  value = { this.state.tmp_form.units } onChange = {(event: React.ChangeEvent<HTMLInputElement>) => this.handleChange(0, "units", event, false, this.state.tmp_id)} margin = "normal" >
-              </TextField>
-                <br />
-              <TextField  id="standard-name" label = "activation" helperText={this.state.tmp_form.error_text} value = { this.state.tmp_form.activation } onChange = {(event: React.ChangeEvent<HTMLInputElement>) => this.handleChange(1, "activation", event, false, this.state.tmp_id)} margin = "normal" >
-              </TextField>
-            </form>
-                <br />
-              <Button variant="contained"  onClick = { this.handleNodeEdit } >
-              <SaveIcon className={ 'right_icon'} />
-                  Save
-              </Button>
-            </div>
-          </Drawer>
-
-          <Drawer anchor = "right" open = { this.state.drawerlink } onClose = {() => this.toggleDrawer(false, "close", true)}>
+          <Drawer anchor="right" open={this.state.drawer} onClose={() => this.toggleDrawer(false, "close", false)}>
             <div
-            role="presentation"
-            className = { "param_drawer"} >
-              <h2>Link Parameters </h2>
-              <form noValidate autoComplete = "off" className = { "drawer_form"} >
-                <TextField  id="standard-name" helperText={this.state.tmp_form.error_text}  label = "weight" value = { this.state.tmp_form.units } onChange = {(event: React.ChangeEvent<HTMLInputElement>) => this.handleChange(0, "units", event, true, this.state.tmp_id)} margin = "normal" >
+              role="presentation"
+              className={"param_drawer"} >
+              <h2>Node Parameters </h2>
+              <form noValidate autoComplete="off" className={"drawer_form"} >
+                <TextField id="standard-name" label="units" helperText={this.state.tmp_form.error_text} value={this.state.tmp_form.units} onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.handleChange(0, "units", event, false, this.state.tmp_id)} margin="normal" >
                 </TextField>
-                  <br />
-                <TextField  id="standard-name"helperText={this.state.tmp_form.error_text} label = "activation" value = { this.state.tmp_form.activation } onChange = {(event: React.ChangeEvent<HTMLInputElement>) => this.handleChange(1, "activation", event, false, this.state.tmp_id)} margin = "normal" >
-                </TextField>
-                </form>
                 <br />
-              <Button variant="contained"  onClick = { this.handleNodeEdit } >
-                <SaveIcon className={ 'right_icon'} />
+                <TextField id="standard-name" label="activation" helperText={this.state.tmp_form.error_text} value={this.state.tmp_form.activation} onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.handleChange(1, "activation", event, false, this.state.tmp_id)} margin="normal" >
+                </TextField>
+              </form>
+              <br />
+              <Button variant="contained" onClick={this.handleNodeEdit} >
+                <SaveIcon className={'right_icon'} />
                 Save
               </Button>
             </div>
           </Drawer>
 
-          <Dialog open = { this.state.dialog } onClose = { this.handleClose } aria-labelledby="form-dialog-title" >
+          <Drawer anchor="right" open={this.state.drawerlink} onClose={() => this.toggleDrawer(false, "close", true)}>
+            <div
+              role="presentation"
+              className={"param_drawer"} >
+              <h2>Link Parameters </h2>
+              <form noValidate autoComplete="off" className={"drawer_form"} >
+                <TextField id="standard-name" helperText={this.state.tmp_form.error_text} label="weight" value={this.state.tmp_form.units} onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.handleChange(0, "units", event, true, this.state.tmp_id)} margin="normal" >
+                </TextField>
+                <br />
+                <TextField id="standard-name" helperText={this.state.tmp_form.error_text} label="activation" value={this.state.tmp_form.activation} onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.handleChange(1, "activation", event, false, this.state.tmp_id)} margin="normal" >
+                </TextField>
+              </form>
+              <br />
+              <Button variant="contained" onClick={this.handleNodeEdit} >
+                <SaveIcon className={'right_icon'} />
+                Save
+              </Button>
+            </div>
+          </Drawer>
+
+          <Dialog open={this.state.dialog} onClose={this.handleClose} aria-labelledby="form-dialog-title" >
             <DialogTitle id="form-dialog-title" > Execution Configuration </DialogTitle>
             <DialogContent >
-            <TextField
+              {/* <TextField
               autoFocus
               value = { this.state.config.optimizer.slice(1, -1) }
               margin = "dense"
@@ -653,70 +654,131 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
                     } as any)
                   }}
                 fullWidth
-                />
+                /> */}
 
-          <FormControlLabel
-              control={
-                < Checkbox
-                  onChange = { this.handleCheckBoxChange("'accuracy'") }
-                  value = "accuracy"
-                  color = "primary"
-              />
-             }
-              label = "Accuracy"
+              <InputLabel id="demo-simple-select-outlined-label">Optimizer</InputLabel>
+              <Select
+                autoFocus
+                margin="dense"
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={this.state.config.optimizer.slice(1, -1)}
+                onChange={(e) => {
+                  var tmp_form = this.state.config;
+                  tmp_form["optimizer"] = "'" + e.target.value + "'"
+                  this.setState({
+                    tmp_form
+                  } as any)
+                }}
+                fullWidth
+              >
+                {/* <MenuItem value="none">
+                  <em>None</em>
+                </MenuItem> */}
+                <MenuItem value="Adam">Adam</MenuItem>
+                <MenuItem value="SGD">SGD</MenuItem>
+                <MenuItem value="RMSProp">RMSProp</MenuItem>
+                <MenuItem value="Adagrad">Adagrad</MenuItem>
+                <MenuItem value="Adadelta">AdaDelta</MenuItem>
+                <MenuItem value="Adamax">Adamax</MenuItem>
+                <MenuItem value="Nadam">Nadam</MenuItem>
+              </Select>
+
+
+              <InputLabel
+                style={{ marginTop: "10px" }} id="demo-simple">Loss Function</InputLabel>
+              <Select
+                autoFocus
+                margin="dense"
+                labelId="demo-simple"
+                id="demo-simple-select"
+                value={this.state.config.loss.slice(1, -1)}
+                onChange={(e) => {
+                  var tmp_form = this.state.config;
+                  tmp_form["loss"] = "'" + e.target.value + "'"
+                  this.setState({
+                    tmp_form
+                  } as any)
+                }}
+                fullWidth
+              >
+                {/* <MenuItem value="none">
+                  <em>None</em>
+                </MenuItem> */}
+                <MenuItem value="sparse_categorical_crossentropy">Sparse Categorical Crossentropy</MenuItem>
+                <MenuItem value="mean_squared_error">Mean Squared Error</MenuItem>
+                <MenuItem value="mean_absolute_error">Mean Absolute Error</MenuItem>
+                <MenuItem value="mean_absolute_percentage_error">Mean Absolute Percentage Error</MenuItem>
+                <MenuItem value="mean_squared_logarithmic_error">Mean Squared Logarithmic Error</MenuItem>
+                <MenuItem value="squared_hinge">Squared Hinge</MenuItem>
+                <MenuItem value="hinge">Hinge</MenuItem>
+                <MenuItem value="categorical_crossentropy">Categorical Crossentropy</MenuItem>
+                <MenuItem value="binary_crossentropy">Binary Crossentropy</MenuItem>
+                <MenuItem value="kullback_leibler_divergence">Kullback Leibler Distance</MenuItem>
+              </Select>
+
+              <FormControlLabel
+                control={
+                  < Checkbox
+                    onChange={this.handleCheckBoxChange("'accuracy'")}
+                    value="accuracy"
+                    color="primary"
+                  />
+                }
+                label="Accuracy"
               />
 
-          <FormControlLabel
-            control={
-              < Checkbox
-                onChange = { this.handleCheckBoxChange("'neg_mean_square_error'") }
-                value = "neg_mean_square_error"
-                color = "primary"
-          />
-            }
-              label = "Neg mean square error"
+              <FormControlLabel
+                control={
+                  < Checkbox
+                    onChange={this.handleCheckBoxChange("'neg_mean_square_error'")}
+                    value="neg_mean_square_error"
+                    color="primary"
+                  />
+                }
+                label="Neg mean square error"
               />
 
-          </DialogContent>
-          <DialogActions >
-            <Button onClick={ this.handleClose } color = "primary" >
-              Cancel
+            </DialogContent>
+            <DialogActions >
+              <Button onClick={this.handleClose} color="primary" >
+                Cancel
             </Button>
-            <Button onClick = { this.handleExeConfig } color = "primary" >
-              Save
+              <Button onClick={this.handleExeConfig} color="primary" >
+                Save
             </Button>
-          </DialogActions>
-        </Dialog>
+            </DialogActions>
+          </Dialog>
 
-          <Dialog open = { this.state.dialog_group } onClose = { this.handleCloseGrouping } aria-labelledby="form-dialog-title" >
+          <Dialog open={this.state.dialog_group} onClose={this.handleCloseGrouping} aria-labelledby="form-dialog-title" >
             <DialogTitle id="form-dialog-title" > Group Selected nodes </DialogTitle>
             <DialogContent >
-            Layer Name:
+              Layer Name:
             <TextField
-              autoFocus
-      				value = { this.state.layer_name }
-              margin = "dense"
-              id = "name"
-              type = "text"
-      				onChange = {(e) => {
-      					this.setState({
-                    layer_name:e.target.value
+                autoFocus
+                value={this.state.layer_name}
+                margin="dense"
+                id="name"
+                type="text"
+                onChange={(e) => {
+                  this.setState({
+                    layer_name: e.target.value
                   })
                 }}
                 fullWidth
-                />
-                Choose color:
+              />
+              Choose color:
                 <Select
                 fullWidth
-                onChange={(e) => {this.setState({layer_color:e.target.value})}}
+                onChange={(e) => { this.setState({ layer_color: e.target.value }) }}
                 value={this.state.layer_color}
-                classes={{select:classes.select}}
+                classes={{ select: classes.select }}
               >
                 <MenuItem value="" >
                   <em>None</em>
                 </MenuItem>
                 <MenuItem value={"rgb(255,0,0)"}>
-                  <Avatar variant="circle" className={classes.red} >R 
+                  <Avatar variant="circle" className={classes.red} >R
                   </Avatar> Red
                 </MenuItem>
                 <MenuItem value={"rgb(100,128,155)"}>
@@ -732,25 +794,25 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
                   </Avatar>Blue
                 </MenuItem>
               </Select>
-          </DialogContent>
-          <DialogActions >
-            <Button onClick={ this.handleCloseGrouping } color = "primary" >
-              Cancel
+            </DialogContent>
+            <DialogActions >
+              <Button onClick={this.handleCloseGrouping} color="primary" >
+                Cancel
             </Button>
-            <Button onClick = { this.handleSelection } color = "primary" >
-              Save
+              <Button onClick={this.handleSelection} color="primary" >
+                Save
             </Button>
-          </DialogActions>
-        </Dialog>
+            </DialogActions>
+          </Dialog>
 
 
 
-    </div>
-    </div>
+        </div>
+      </div>
 
 
     );
-	}
+  }
 }
 
-export default withStyles(styles, {withTheme: true})(BodyWidget)
+export default withStyles(styles, { withTheme: true })(BodyWidget)
