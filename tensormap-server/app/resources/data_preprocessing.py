@@ -89,13 +89,14 @@ def addData():
         return splitFileInfo[0]
 
 
-@main.route('/visualizeData', methods=['GET'])
-def visualizeData():
+@main.route('/visualizeData/<fileName>', methods=['GET'])
+def visualizeData(fileName):
 
     # ******************************************change
     # entry = dataset.query.filter_by(fileName=request.args['fileName']).one()
 
-    entry = dataset.query.filter_by(fileName="store").one()
+    #entry = dataset.query.filter_by(fileName="store").one()
+    entry=dataset.query.filter_by(fileName=fileName).one()
     print(entry.filePath)
     responseData = createJsonData(entry)
     return responseData
