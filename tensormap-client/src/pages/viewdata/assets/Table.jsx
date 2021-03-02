@@ -217,7 +217,7 @@ class EnhancedTable extends React.Component {
     id.forEach((x) =>{
         getDeleteHandler(x);
         this.state.data.forEach((y) => {
-          if(y.id == x){
+          if(y.id === x){
             console.log(x, "deleted")
           }
           else{

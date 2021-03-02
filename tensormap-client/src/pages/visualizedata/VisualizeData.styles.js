@@ -11,7 +11,7 @@ const styles = theme => ({
   		backgroundColor: 'green'
   	},
   	table: {
-		fontFamily: '\"Trebuchet MS\", Arial, Helvetica, sans-serif',
+		fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',
   		borderCollapse: 'collapse',
   		width: '100%',
   	},
