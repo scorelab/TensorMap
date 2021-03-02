@@ -251,6 +251,8 @@ def saveConfig():
 
 @main.route('/viewData', methods=['GET'])
 def viewData():
+
+     df.sort_values(by=['dataName', 'dataType'])
     entries = dataset.query.all()
     entries = [entry.serialize() for entry in entries]
     return json.dumps(entries)
