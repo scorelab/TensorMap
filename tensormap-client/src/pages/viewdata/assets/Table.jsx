@@ -61,7 +61,7 @@ class EnhancedTableHead extends React.Component {
               onChange={onSelectAllClick}
             />
           </TableCell>
-          {rows.map(
+          {rows ? rows.map(
             row => (
               <TableCell
                 key={row.id}
@@ -85,7 +85,7 @@ class EnhancedTableHead extends React.Component {
               </TableCell>
             ),
             this,
-          )}
+          ): 'Record Not Found'}
         </TableRow>
       </TableHead>
     );
