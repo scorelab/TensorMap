@@ -1,27 +1,28 @@
-[![Build Status](https://travis-ci.com/scorelab/TensorMap.svg?branch=master)](https://travis-ci.com/scorelab/TensorMap)  [![Join the chat at https://gitter.im/scorelab/TensorMap](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/scorelab/TensorMap) 
+[![Build Status](https://travis-ci.com/scorelab/TensorMap.svg?branch=master)](https://travis-ci.com/scorelab/TensorMap) [![Join the chat at https://gitter.im/scorelab/TensorMap](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/scorelab/TensorMap)
 [![HitCount](http://hits.dwyl.com/scorelab/TensorMap.svg)](http://hits.dwyl.com/scorelab/TensorMap)
-
-
 
 # TensorMap
 
 TensorMap is a web application that will allow the users to create machine learning algorithms visually. TensorMap supports reverse engineering of the visual layout to a Tensorflow implementation in preferred languages. The goal of the project is to let the beginners play with machine learning algorithms in Tensorflow without less background knowledge about the library. For more details about the project, read our [project wiki.](https://github.com/scorelab/TensorMap/wiki)
 
 ## Getting Started
+
 Follow these steps to set up TensorMap on your local machine.
 
 First clone this repo by running
+
 ```bash
 
 git clone https://github.com/scorelab/TensorMap.git
-```````````````````````````
+```
 
 ### Setting up Frontend
 
 #### Prerequisites
-* Node.js
-* Yarn
-* Npm
+
+- Node.js
+- Yarn
+- Npm
 
 ```bash
 cd TensorMap
@@ -54,13 +55,15 @@ mysql -u <user> -p
 CREATE DATABASE tensormap;
 ```
 
-Then in the '__init__' file that is inside the 'app' folder, replace the database connection string with your username and password
+Create a .env file based on the format provided in .envsample file, add your database connection string and secret
 
 ```bash
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://<user>:<password>@localhost/tensormap"
+DATABASE_URI=mysql://<user>:<password>@localhost:<portnumber>/tensormap
+SECRET_KEY=secret
 ```
 
 Next, restore the sql dump
+
 ```bash
 mysql -u {user} -p -Dtensormap < {path-to-dump-file}/dump.sql
 ```
@@ -73,9 +76,9 @@ python run.py
 
 ## Built With
 
-* [Reactjs](https://reactjs.org/docs/getting-started.html) : Frontend  
-* [Flask](http://flask.pocoo.org/) : Backend
-* [TensorFlow - Keras](https://www.tensorflow.org/) : Model implemetation
+- [Reactjs](https://reactjs.org/docs/getting-started.html) : Frontend
+- [Flask](http://flask.pocoo.org/) : Backend
+- [TensorFlow - Keras](https://www.tensorflow.org/) : Model implemetation
 
 ## Contributing
 

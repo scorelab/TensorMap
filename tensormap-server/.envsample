@@ -1,0 +1,2 @@
+DATABASE_URI=mysql://<user>:<password>@localhost:<portnumber>/tensormap
+SECRET_KEY=secret

@@ -289,4 +289,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Misc
+/flask_session
+
 # End of https://www.gitignore.io/api/linux,macos,python,windows,pycharm,visualstudiocode
