@@ -483,14 +483,26 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
                                   event => {
                                     var data = JSON.parse(event.dataTransfer.getData("storm-diagram-node"));
                                     var node = null;
+                                    var is_true=true;
+                                    var old_nodes =this.props.app.getDiagramEngine().getDiagramModel().serializeDiagram().nodes;
                                     if (data.name === "inp_layer") {
+                                      for(var i=0;i<old_nodes.length;i++){
+                                        console.log(old_nodes[i].extras.name,i)
+                                        if (old_nodes[i].extras.name==="Input Node"){
+                                          window.alert("There is already one Input node.");
+                                          is_true=false
+                                          break;
+                                        }
+                                      }
+                                      console.log(is_true)
+                                      if(is_true){
                                       node = new DefaultNodeModel("Input", "rgb(0,102,255)");
                                       node.addPort(new DefaultPortModel(false, "out-1", "out"));
                                       node.extras = {
                                         name: "Input Node",
                                         wight: 0.5
                                       }
-                                    } else if (data.name === "out_layer") {
+                                    } }else if (data.name === "out_layer") {
 
                                       node = new DefaultNodeModel("Output", "rgb(90,102,255)");
                                       node.addPort(new DefaultPortModel(true, "in-1", "In"));
@@ -508,6 +520,7 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
                                         wight: 0.5
                                       }
                                     }
+                                    if(node != null){
                                     var points = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
                                     node.x = points.x;
                                     node.y = points.y;
@@ -516,7 +529,7 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
                                       .getDiagramModel()
                                       .addNode(node);
                                     this.forceUpdate();
-                                  }
+                                  }}
                                 }
           						onDragOver = {
                           event => {
