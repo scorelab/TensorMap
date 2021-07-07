@@ -83,12 +83,10 @@ class VisualizeData extends React.Component {
 
   componentWillMount() { 
 
-    this.setState({fileName: this.props.location.state.fileName })
+    this.setState({fileName: this.props.match.params.id })
 
     let url = "http://127.0.0.1:5000/visualizeData?fileName="
-    url = url.concat(this.props.location.state.fileName)
-
-    console.log(this.props.location.state.fileName)
+    url = url.concat(this.props.match.params.id)
 
     fetch(url, {
       method: 'GET'

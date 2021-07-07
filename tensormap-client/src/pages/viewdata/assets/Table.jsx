@@ -204,7 +204,7 @@ class EnhancedTable extends React.Component {
 
     var data__ = [];
     this.props.data.forEach((x) => {
-      data__.push(createData(x.id,x.name,x.fileFormat))
+      data__.push(createData(x.fileName,x.name,x.fileFormat))
     })
 
     this.setState({
