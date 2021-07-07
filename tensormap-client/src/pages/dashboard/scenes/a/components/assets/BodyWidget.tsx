@@ -483,6 +483,9 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
                                   event => {
                                     var data = JSON.parse(event.dataTransfer.getData("storm-diagram-node"));
                                     var node = null;
+                                    var is_true_output=true;
+                                    var old_nodes_output=this.props.app.getDiagramEngine().getDiagramModel().serializeDiagram().nodes;
+                                    
                                     if (data.name === "inp_layer") {
                                       node = new DefaultNodeModel("Input", "rgb(0,102,255)");
                                       node.addPort(new DefaultPortModel(false, "out-1", "out"));
@@ -491,13 +494,20 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
                                         wight: 0.5
                                       }
                                     } else if (data.name === "out_layer") {
-
+                                      for(var i =0;i<old_nodes_output.length;i++){
+                                        if (old_nodes_output[i].extras.name==="Output Node"){
+                                          window.alert("There is already one output Node");
+                                          is_true_output=false;
+                                          break;
+                                        }
+                                      }
+                                      if(is_true_output){
                                       node = new DefaultNodeModel("Output", "rgb(90,102,255)");
                                       node.addPort(new DefaultPortModel(true, "in-1", "In"));
                                       node.extras = {
                                         name: "Output Node",
                                         wight: 0.5
-                                      }
+                                      }}
                                     }
                                     else {
                                       node = new DefaultNodeModel("Dense", "rgb(0,192,255)");
@@ -508,6 +518,7 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
                                         wight: 0.5
                                       }
                                     }
+                                    if(node != null){
                                     var points = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
                                     node.x = points.x;
                                     node.y = points.y;
@@ -516,7 +527,7 @@ class BodyWidget extends React.Component<BodyWidgetProps, BodyWidgetState> {
                                       .getDiagramModel()
                                       .addNode(node);
                                     this.forceUpdate();
-                                  }
+                                  }}
                                 }
           						onDragOver = {
                           event => {
