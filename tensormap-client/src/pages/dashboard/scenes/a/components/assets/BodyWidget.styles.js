@@ -35,6 +35,10 @@ const styles = theme => ({
   button: {
     margin: theme.spacing(1)
   },
+  copybutton: {
+  height: "40px",
+    margin: theme.spacing(2)
+  },
   exportButton: {
     height: "40px",
     margin: theme.spacing(2)
