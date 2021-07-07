@@ -63,10 +63,7 @@ class AddData extends React.Component {
         }
         else{
           this.props.history.push(
-            '/visualize',
-            {
-              fileName: responseText,
-            }
+            `/visualize/${responseText}`
           )
         }       
      }).catch(function (error) {
@@ -104,4 +101,4 @@ AddData.propTypes = {
   theme  : PropTypes.object.isRequired,
 }
 
-export default withStyles(styles, {withTheme: true})(AddData)
+export default withRouter(withStyles(styles, {withTheme: true})(AddData))
