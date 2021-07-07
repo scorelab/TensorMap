@@ -255,8 +255,18 @@ def viewData():
     entries = [entry.serialize() for entry in entries]
     return json.dumps(entries)
 
-
-
-
-
-
+@main.route('/sortData', methods=['POST'])
+def sortData():
+    allData = {}
+    type = request.args.get('sortingType') or 'INCREASING'
+    if (type == 'DECREASING'):
+        sortedEntries = dataset.order_by(dataset.fileName.desc())
+        dataset.save()
+        return json.dumps(sortedEntries)
+    elif (type == 'ASCENDING'):
+        sortedEntries = dataset.order_by(dataset.fileName)
+        dataset.save()
+        return json.dumps(sortedEntries)
+    else:
+        allData["error"] = "Invalid sorting request."
+    return json.dumps(allData)
