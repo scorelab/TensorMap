@@ -18,6 +18,7 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { saveAs } from 'file-saver';
 import { forwardRef } from 'react';
 import { template } from '@babel/core';
@@ -418,8 +419,24 @@ class VisualizeData extends React.Component {
     const {sampleData} = this.state;
     const {classes} = this.props;
     const {match} = this.props;
+    let loadingMessage = null;
 
-    
+    const isLoadingData = () => {
+      if (this.props.data && this.props.fileName) {
+        console.log("Data loaded!")
+        return false;
+      } else if (!this.props.fileName) {
+        console.log("Unable to find file.")
+        loadingMessage = "Cannot find file";
+        setTimeout(() => {
+          loadingMessage += " You might want to check your query or file name."
+        }, 8000);
+        return true;
+      } else {
+        loadingMessage = "Data is loading";
+        return true;
+      }
+    }
 
     return (
       <div className={classes.container}>
@@ -482,51 +499,60 @@ class VisualizeData extends React.Component {
         </div>
 
         <div style={{ maxWidth: "100%" }}>
-        <MaterialTable
-        icons={tableIcons}
-      title={this.state.fileName}
-      columns={this.state.columns}
-      data={this.state.data}
-      options={{
-        filtering: true
-      }}
-      editable={{
-        onRowAdd: newData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              const tempdata = [...this.state.data];
-              tempdata.push(newData);
-              this.setState({data:tempdata});
-              console.log(newData);
-              this.sendAddRequest(newData);
-            }, 600);
-          }),
-        onRowDelete: oldData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              console.log(oldData)
-              const tempdata = [...this.state.data];
-              tempdata.splice(tempdata.indexOf(oldData), 1);
-              this.setState({data:tempdata});
-              console.log(oldData);
-              this.sendDeleteRequest(oldData);
-            }, 600);
-          }),
-          onRowUpdate: (newData, oldData) =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              const tempdata = [...this.state.data];
-              tempdata[tempdata.indexOf(oldData)] = newData;
-              this.setState({data:tempdata});
-              console.log(oldData);
-              console.log(newData);
-              this.sendEditRequest(newData);
-            }, 600);
-          }),
-      }} />
+          {   
+          () => isLoadingData() ? 
+            <div>
+              <h2> {loadingMessage}... </h2>
+              <LinearProgress color="secondary" />
+            </div>
+              :
+            <MaterialTable
+            icons={tableIcons}
+            title={this.state.fileName}
+            columns={this.state.columns}
+            data={this.state.data}
+            options={{
+            filtering: true
+            }}
+            editable={{
+            onRowAdd: newData =>
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
+                  const tempdata = [...this.state.data];
+                  tempdata.push(newData);
+                  this.setState({data:tempdata});
+                  console.log(newData);
+                  this.sendAddRequest(newData);
+                }, 600);
+              }),
+            onRowDelete: oldData =>
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
+                  console.log(oldData)
+                  const tempdata = [...this.state.data];
+                  tempdata.splice(tempdata.indexOf(oldData), 1);
+                  this.setState({data:tempdata});
+                  console.log(oldData);
+                  this.sendDeleteRequest(oldData);
+                }, 600);
+              }),
+              onRowUpdate: (newData, oldData) =>
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
+                  const tempdata = [...this.state.data];
+                  tempdata[tempdata.indexOf(oldData)] = newData;
+                  this.setState({data:tempdata});
+                  console.log(oldData);
+                  console.log(newData);
+                  this.sendEditRequest(newData);
+                }, 600);
+              }),
+            }} />
+          } 
+       
         </div>
       </div>
     )
